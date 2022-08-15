@@ -1,0 +1,190 @@
+uid: CustomThermometer
+tags: []
+props:
+  parameters:
+    - default: Thermometer
+      description: The list item Title
+      label: The widget title
+      name: title
+      required: false
+      type: TEXT
+      groupName: headerGroup
+    - description: The list item subtitle
+      label: The widget subtitle
+      name: subtitle
+      required: false
+      type: TEXT
+      groupName: headerGroup
+    - default: if:mdi:home-thermometer-outline
+      description: The widget icon to display
+      label: Icon
+      name: widgetIcon
+      required: false
+      type: TEXT
+      groupName: headerGroup
+    - default: lightblue
+      description: The widget icon color
+      label: Icon  Color
+      name: widgetIconColor
+      required: false
+      type: TEXT
+      groupName: headerGroup
+    - context: item
+      description: The temperature item
+      label: Temperature
+      name: temperatureItem
+      required: false
+      type: TEXT
+      groupName: temperatureGroup
+    - description: The temperature item color
+      label: Item Color
+      name: temperatureItemColor
+      required: false
+      type: TEXT
+      groupName: temperatureGroup
+    - default: if:carbon:temperature
+      description: The temperature icon to display
+      label: Icon
+      name: temperatureIcon
+      required: false
+      type: TEXT
+      groupName: temperatureGroup
+    - description: The temperature icon color
+      label: Icon Color
+      name: temperatureIconColor
+      required: false
+      type: TEXT
+      groupName: temperatureGroup
+    - context: item
+      description: The humidity item
+      label: Humidity
+      name: humidityItem
+      required: false
+      type: TEXT
+      groupName: humidityGroup
+    - description: The humidity item color
+      label: Item Color
+      name: humidityItemColor
+      required: false
+      type: TEXT
+      groupName: humidityGroup
+    - default: if:carbon:humidity
+      description: The humidity icon to display
+      label: Icon
+      name: humidityIcon
+      required: false
+      type: TEXT
+      groupName: humidityGroup
+    - description: The humidity icon color
+      label: Icon Color
+      name: humidityIconColor
+      required: false
+      type: TEXT
+      groupName: humidityGroup
+    - context: item
+      description: The battery level item
+      label: Battery level
+      name: batteryItem
+      required: false
+      type: TEXT
+      groupName: batteryGroup
+    - description: The battery item color
+      label: Item Color
+      name: batteryItemColor
+      required: false
+      type: TEXT
+      groupName: batteryGroup
+    - default: oh:batterylevel
+      description: The battery icon to display
+      label: Icon
+      name: batteryIcon
+      required: false
+      type: TEXT
+      groupName: batteryGroup
+    - description: The battery icon color
+      label: Icon Color
+      name: batteryIconColor
+      required: false
+      type: TEXT
+      groupName: batteryGroup
+    - description: The Last Update Value Item
+      label: Last Update Item
+      name: lastUpdateItem
+      context: item
+      required: false
+      type: TEXT
+      groupName: lastUpdateGroup      
+  parameterGroups:
+    - name: headerGroup
+      label: Title
+    - name: temperatureGroup
+      label: Temperature
+    - name: humidityGroup
+      label: Humidity
+    - name: batteryGroup
+      label: Battery
+    - name: lastUpdateGroup
+      label: Last Update Value      
+timestamp: Aug 15, 2022, 10:57:26 PM
+component: oh-list-item
+config:
+  title: =props.title
+  icon: =props.widgetIcon
+  iconColor: =props.widgetIconColor
+  subtitle: =(props.subtitle!=undefined?props.subtitle:"") + " " + 
+    (props.lastUpdateItem!=undefined?(items[props.lastUpdateItem].displayState==undefined?items[props.lastUpdateItem].state:items[props.lastUpdateItem].displayState):"")
+slots:
+  after:
+    - component: f7-row
+      config:
+        style:
+          gap: 4px
+          display: inline-flex
+          justify-content: flex-end
+          align-content: center
+          align-items: center
+          max-width: 200px
+      slots:
+        default:
+          - component: oh-icon
+            config:
+              icon: =props.temperatureIcon
+              color: =props.temperatureIconColor
+              visible: =(props.temperatureItem != undefined)
+              width: 22
+              style:
+                margin-left: 4px
+          - component: Label
+            config:
+              text: =(items[props.temperatureItem].displayState==undefined?items[props.temperatureItem].state:items[props.temperatureItem].displayState)
+              visible: =(props.temperatureItem != undefined)
+              style:
+                color: =props.temperatureItemColor
+          - component: oh-icon
+            config:
+              icon: =props.humidityIcon
+              color: =props.humidityIconColor
+              visible: =(props.humidityItem != undefined)
+              width: 22
+              style:
+                margin-left: 4px
+          - component: Label
+            config:
+              text: =(items[props.humidityItem].displayState==undefined?items[props.humidityItem].state + " %":items[props.humidityItem].displayState)
+              visible: =(props.humidityItem != undefined)
+              style:
+                color: =props.humidityItemColor
+          - component: oh-icon
+            config:
+              visible: =(props.batteryItem != undefined)
+              icon: =props.batteryIcon
+              color: =props.batteryIconColor
+              width: 22
+              style:
+                margin-left: 4px
+          - component: Label
+            config:
+              visible: =(props.batteryItem != undefined)
+              text: =(items[props.batteryItem].displayState==undefined?items[props.batteryItem].state + " %":items[props.batteryItem].displayState)
+              style:
+                color: =props.batteryItemColor
