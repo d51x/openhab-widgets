@@ -19,6 +19,7 @@ Mobile view
 - support separate text color for ON- and OFF-states
 - support separate icon color for ON- and OFF-states
 - if some socket item is not defined don't show it
+- **clickable icons**
 
 Options:
 
