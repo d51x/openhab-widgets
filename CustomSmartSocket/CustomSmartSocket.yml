@@ -1,0 +1,153 @@
+uid: CustomSmartSocket
+tags: []
+props:
+  parameters:
+    - default: Enter title here
+      description: The list item text
+      label: Text
+      name: text
+      required: false
+      type: TEXT
+    - context: item
+      description: The item to turn the socket 1 ON or OFF
+      label: Socket1 Item
+      name: Socket1Item
+      required: false
+      type: TEXT
+    - context: item
+      description: The item to turn the socket 2 ON or OFF
+      label: Socket2 Item
+      name: Socket2Item
+      required: false
+      type: TEXT
+    - context: item
+      description: The item to turn the socket 3 ON or OFF
+      label: Socket3 Item
+      name: Socket3Item
+      required: false
+      type: TEXT
+    - context: item
+      description: The item to turn the socket 4 ON or OFF
+      label: Socket4 Item
+      name: Socket4Item
+      required: false
+      type: TEXT
+    - context: item
+      description: The item to turn the usb socket ON or OFF
+      label: SocketUSB Item
+      name: SocketUSBItem
+      required: false
+      type: TEXT
+    - default: black
+      description: Text color of sockets number
+      label: Socket number ON text color
+      name: textColorON
+      required: false
+      type: TEXT
+    - default: black
+      description: Text color of sockets number
+      label: Socket number OFF text color
+      name: textColorOFF
+      required: false
+      type: TEXT    
+    - default: red
+      description: Icon color of sockets
+      label: Socket icon color for ON
+      name: iconColorON
+      required: false
+      type: TEXT
+    - default: green
+      description: Icon color of sockets
+      label: Socket icon color for OFF
+      name: iconColorOFF
+      required: false
+      type: TEXT        
+    - default: oh:poweroutlet
+      description: The icon to display
+      label: Icon
+      name: icon
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Nov 29, 2022, 11:34:26 PM
+component: oh-list-item
+config:
+  icon: =props.icon
+  title: =props.text
+slots:
+  after:
+    - component: f7-row
+      config:
+        class: bog
+        style:
+          display: flex
+          flex-wrap: wrap
+          justify-content: space-between
+          align-content: space-between
+      slots:
+        default:
+          - component: oh-button
+            config:
+              text: 1
+              iconMaterial: "=(items[props.Socket1Item].state === 'ON') ? 'power' : 'power_off'"
+              iconColor: "=(items[props.Socket1Item].state === 'ON') ? props.iconColorON : props.iconColorOFF"
+              action: toggle
+              actionItem: =props.Socket1Item
+              actionCommand: ON
+              actionCommandAlt: OFF
+              tooltip: ="Socket 1 is " + items[props.Socket1Item].state
+              visible: =(props.Socket1Item != undefined)
+              style:
+                color: "=(items[props.Socket1Item].state === 'ON') ? props.textColorON : props.textColorOFF"
+          - component: oh-button
+            config:
+              text: 2
+              iconMaterial: "=(items[props.Socket2Item].state === 'ON') ? 'power' : 'power_off'"
+              iconColor: "=(items[props.Socket2Item].state === 'ON') ? props.iconColorON : props.iconColorOFF"
+              action: toggle
+              actionItem: =props.Socket2Item
+              actionCommand: ON
+              actionCommandAlt: OFF
+              tooltip: ="Socket 2 is " + items[props.Socket2Item].state
+              visible: =(props.Socket2Item != undefined)
+              style:
+                color: "=(items[props.Socket2Item].state === 'ON') ? props.textColorON : props.textColorOFF"
+          - component: oh-button
+            config:
+              text: 3
+              iconMaterial: "=(items[props.Socket3Item].state === 'ON') ? 'power' : 'power_off'"
+              iconColor: "=(items[props.Socket3Item].state === 'ON') ? props.iconColorON : props.iconColorOFF"
+              action: toggle
+              actionItem: =props.Socket3Item
+              actionCommand: ON
+              actionCommandAlt: OFF
+              tooltip: ="Socket 3 is " + items[props.Socket3Item].state
+              visible: =(props.Socket3Item != undefined)
+              style:
+                color: "=(items[props.Socket3Item].state === 'ON') ? props.textColorON : props.textColorOFF"
+          - component: oh-button
+            config:
+              text: 4
+              iconMaterial: "=(items[props.Socket4Item].state === 'ON') ? 'power' : 'power_off'"
+              iconColor: "=(items[props.Socket4Item].state === 'ON') ? props.iconColorON : props.iconColorOFF"
+              action: toggle
+              actionItem: =props.Socket4Item
+              actionCommand: ON
+              actionCommandAlt: OFF
+              tooltip: ="Socket 4 is " + items[props.Socket4Item].state
+              visible: =(props.Socket4Item != undefined)
+              style:
+                color: "=(items[props.Socket4Item].state === 'ON') ? props.textColorON : props.textColorOFF"
+          - component: oh-button
+            config:
+              text: usb
+              iconMaterial: "=(items[props.SocketUSBItem].state === 'ON') ? 'usb' : 'usb_off'"
+              iconColor: "=(items[props.SocketUSBItem].state === 'ON') ? props.iconColorON : props.iconColorOFF"
+              action: toggle
+              actionItem: =props.SocketUSBItem
+              actionCommand: ON
+              actionCommandAlt: OFF
+              tooltip: ="Socket USB is " + items[props.SocketUSBItem].state
+              visible: =(props.SocketUSBItem != undefined)
+              style:
+                color: "=(items[props.SocketUSBItem].state === 'ON') ? props.textColorON : props.textColorOFF"
