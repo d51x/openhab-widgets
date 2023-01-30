@@ -1,0 +1,112 @@
+uid: CustomDoorListItem
+tags: []
+props:
+  parameters:
+    - description: The list item Title
+      label: The widget title
+      name: title
+      required: false
+      type: TEXT
+      groupName: headerGroup
+    - description: The list item subtitle
+      label: The widget subtitle
+      name: subtitle
+      required: false
+      type: TEXT
+      groupName: headerGroup
+    - description: The item to select
+      label: Item
+      name: item
+      required: false
+      type: TEXT
+      context: item
+      groupName: headerGroup
+    - description: Use a badge insted of value
+      label: Use Badge
+      name: useBadge
+      required: false
+      type: BOOLEAN
+      groupName: headerGroup    
+      
+    - label: Show Last Changed
+      description: Display how long ago the event happened
+      name: useLastChange
+      required: false
+      type: BOOLEAN
+      groupName: lastChanged
+    - description: The Last Change item to select
+      label: Item
+      name: lastChangeItem
+      required: false
+      type: TEXT
+      context: item
+      groupName: lastChanged
+      
+    - default: if:bi:door-open
+      description: The icon for OPEN/ON state
+      label: Icon
+      name: openIcon
+      required: false
+      type: TEXT
+      groupName: openGroup
+    - description: The icon color for OPEN/ON state
+      label: Icon Color
+      name: openIconColor
+      required: false
+      type: TEXT
+      groupName: openGroup
+    - description: The badge color for OPEN/ON state
+      default: red
+      label: Badge Color
+      name: openBadgeColor
+      required: false
+      type: TEXT
+      advanced: true
+      groupName: openGroup
+      
+    - default: if:bi:door-closed
+      description: The icon for CLOSED/OFF state
+      label: Icon
+      name: closedIcon
+      required: false
+      type: TEXT
+      groupName: closedGroup
+    - description: The icon color for CLOSED/OFF state
+      label: Icon Color
+      name: closedIconColor
+      required: false
+      type: TEXT
+      groupName: closedGroup     
+    - description: The badge color for CLOSED/OFF state
+      default: green
+      label: Badge Color
+      name: closedBadgeColor
+      required: false
+      type: TEXT
+      advanced: true
+      groupName: closedGroup       
+  parameterGroups:
+    - name: headerGroup
+      label: Title
+    - name: lastChanged
+      label: Last Changed Time
+    - name: openGroup
+      label: OPEN/ON State
+    - name: closedGroup
+      label: CLOSED/OFF State
+timestamp: Jan 26, 2023, 9:45:08 PM
+component: oh-list-item
+config:
+  title: =props.title
+  subtitle: =(props.subtitle!=undefined?props.subtitle:"") + (props.useLastChange && props.lastChangeItem?" @ " + dayjs(items[props.lastChangeItem].state).fromNow():"")
+  icon: =items[props.item].state=="ON" || items[props.item].state=="OPEN"?props.openIcon:props.closedIcon
+  iconColor: =items[props.item].state=="ON" || items[props.item].state=="OPEN"?props.openIconColor:props.closedIconColor
+  badge: =props.useBadge?(items[props.item].displayState==undefined?items[props.item].state:items[props.item].displayState):""
+  badgeColor: =items[props.item].state=="ON" || items[props.item].state=="OPEN"?props.openBadgeColor:props.closedBadgeColor
+slots:
+  after:
+    - component: Label
+      config:
+        text: =(items[props.item].displayState==undefined?items[props.item].state:items[props.item].displayState)
+        visible: =(props.item != undefined && !props.useBadge)
+

@@ -1,0 +1,112 @@
+uid: multiColorValueLabelItem
+tags:
+  - listitem
+  - color
+props:
+  parameters:
+    - context: item
+      description: Select a list item
+      label: Select Item
+      name: item
+      required: false
+      type: TEXT
+    - description: The list item title
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+    - description: The list item subtitle
+      label: Subtitle
+      name: subtitle
+      required: false
+      type: TEXT
+    - description: The icon of item
+      label: Icon
+      name: icon
+      required: false
+      type: TEXT
+    - description: Default color of item
+      label: Icon color
+      name: color0
+      required: false
+      type: TEXT
+    - description: Value below which the icon is displayed in Color1
+      label: Value1
+      name: value1
+      required: false
+      type: TEXT
+      groupName: group1
+    - description: icon color for value below Value1
+      label: Color1
+      name: color1
+      required: false
+      type: TEXT
+      groupName: group1
+    - description: Value below which the icon is displayed in Color2
+      label: Value2
+      name: value2
+      required: false
+      type: TEXT
+      groupName: group2
+    - description: icon color for value below Value2
+      label: Color2
+      name: color2
+      required: false
+      type: TEXT
+      groupName: group2
+    - description: Value below which the icon is displayed in Color3
+      label: Value3
+      name: value3
+      required: false
+      type: TEXT
+      groupName: group3
+      advanced: true
+    - description: icon color for value below Value3
+      label: Color3
+      name: color3
+      required: false
+      type: TEXT
+      groupName: group3
+      advanced: true
+    - description: Value below which the icon is displayed in Color4
+      label: Value4
+      name: value4
+      required: false
+      type: TEXT
+      groupName: group4
+      advanced: true
+    - description: icon color for value below Value4
+      label: Color4
+      name: color4
+      required: false
+      type: TEXT
+      groupName: group4
+      advanced: true
+    - context: item
+      description: Item we are executing our command through
+      label: Action Item
+      name: actionItem
+      required: false
+      type: TEXT     
+      groupName: groupAction
+  parameterGroups:
+    - name: group1
+      label: Value1
+    - name: group2
+      label: Value2
+    - name: group3
+      label: Value3
+    - name: group4
+      label: Value4
+    - name: groupAction
+      label: Action
+timestamp: Jan 25, 2023, 11:34:13 PM
+component: oh-label-item
+config:
+  title: =props.title!=undefined?props.title:""
+  subtitle: =(props.subtitle!=undefined?props.subtitle:"")
+  icon: =props.icon
+  iconColor: =(props.color1!=undefined && props.value1!=undefined && Number.parseFloat(items[props.item].state)<Number.parseFloat(props.value1))?props.color1:((props.color2!=undefined && props.value2!=undefined && Number.parseFloat(items[props.item].state)<Number.parseFloat(props.value2))?props.color2:((props.color3!=undefined && props.value3!=undefined && Number.parseFloat(items[props.item].state)<Number.parseFloat(props.value3))?props.color3:((props.color4!=undefined && props.value4!=undefined && Number.parseFloat(items[props.item].state)<Number.parseFloat(props.value4))?props.color4:(props.color0!=undefined?props.color0:""))))
+  after: =(items[props.item].displayState==undefined)?items[props.item].state:items[props.item].displayState
+  actionAnalyzerItems: =props.actionItem!=undefined?[props.actionItem]:""
+  action: =props.actionItem!=undefined?"analyzer":""

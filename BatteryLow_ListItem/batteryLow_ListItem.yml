@@ -1,0 +1,36 @@
+uid: batteryLow_ListItem
+tags: []
+props:
+  parameters:
+    - context: item
+      description: An item to control
+      label: Item
+      name: item
+      required: false
+      type: TEXT
+    - description: A title
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+    - description: A subtitle
+      label: SubTitle
+      name: subtitle
+      required: false
+      type: TEXT
+    - description: You should create item with DateTime type and name same as item plus suffix "_LastChange"
+      label: Show time ago in subtitle
+      name: timeAgo
+      required: false
+      type: BOOLEAN
+timestamp: Jan 27, 2023, 11:51:38 PM
+component: oh-list-item
+config:
+  title: =props.title
+  subtitle: =(props.subtitle!==undefined?(props.subtitle+" "):"") + ((props.item && props.timeAgo)?("@ " + dayjs(@@(props.item+"_LastChange")).fromNow()):"")
+  icon: "=(@@(props.item) == 'ON') ? 'if:ic:baseline-battery-alert' : 'if:ic:baseline-battery-60'"
+  iconColor: "=(@@(props.item) == 'ON') ? 'red' : ''"
+  badge: =@(props.item)
+  badgeColor: "=(@@(props.item) == 'ON') ? 'red' : ''"
+  visible: "=(@@(props.item) == 'ON') ? true : false"
+  after: ""

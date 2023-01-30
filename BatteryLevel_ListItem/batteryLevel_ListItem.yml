@@ -1,0 +1,53 @@
+uid: batteryLevel_ListItem
+tags: []
+props:
+  parameters:
+    - context: item
+      description: An item to control
+      label: Item
+      name: item
+      required: false
+      type: TEXT
+    - default: Батарейка
+      description: A title
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+    - description: A subtitle
+      label: SubTitle
+      name: subtitle
+      required: false
+      type: TEXT
+    - description: You should create item with DateTime type and name same as item plus suffix "_LastChange"
+      label: Show time ago in subtitle
+      name: timeAgo
+      required: false
+      type: BOOLEAN
+  parameterGroups:
+    - name: actionGroup
+      context: action
+      label: Action
+timestamp: Jan 27, 2023, 11:19:40 PM
+component: oh-list-item
+config:
+  title: =props.title
+  subtitle: =(props.subtitle!==undefined?(props.subtitle+" "):"") + ((props.item && props.timeAgo)?("@ " + dayjs(@@(props.item+"_LastChange")).fromNow()):"")
+  icon: >
+    =@@(props.item)>95?"if:ic:baseline-battery-full":
+     @@(props.item)>=75?"if:ic:baseline-battery-80":
+     @@(props.item)>=50?"if:ic:baseline-battery-50":
+     @@(props.item)>=20?"if:ic:baseline-battery-30":
+     "if:ic:baseline-battery-alert"
+  iconColor: >
+    =@@(props.item)>95?"green":
+     @@(props.item)>=75?"green":
+     @@(props.item)>=50?"limegreen":
+     @@(props.item)>=20?"orange":"red"
+  after: =@(props.item)
+  Group_actionAnalyzerItems: =[(props.item)]
+  Group_action: analyzer
+  Group_actionAnalyzerCoordSystem: time
+  action: analyzer
+  actionAnalyzerItems: =[(props.item)]
+  actionAnalyzerCoordSystem: time
