@@ -1,0 +1,69 @@
+uid: unavailable_devices_list_item
+tags:
+  - availability
+  - devices
+  - list
+props:
+  parameters:
+    - default: Unavailbale Devices
+      description: Unavailable devices list-item title
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+      groupName: availability
+    - context: item
+      description: >
+        Group:Number:COUNT(OFF) item for numbers of unavailable devices. Add this group item from "Add item from textual definition" like this:
+        Group:Number:COUNT(OFF)    gDeviceStatusOffline "Unavailable devices"
+      label: Item
+      name: UnavailableDevicesGroupCountItem
+      required: false
+      type: TEXT
+      groupName: availability
+  parameterGroups:
+    - name: availability
+      label: Unavailable devices
+timestamp: Mar 15, 2023, 9:15:49 PM
+component: oh-list-item
+config:
+  icon: 'if:heroicons-outline:status-online'
+  iconColor: '=(items[props.UnavailableDevicesGroupCountItem].state > 0) ? "red" : "green"'
+  style:
+    --f7-list-item-after-font-size: 16px
+    --f7-list-item-after-text-color: "=themeOptions.dark === 'dark' ? 'rgb(180,180,180)' : 'rgb(80,80,80)'"
+  subtitle: '=@@(props.UnavailableDevicesGroupCountItem)>0?@(props.UnavailableDevicesGroupCountItem) + " devices unavailable":"All devices available"'
+  title: =props.title
+slots:
+  accordion:
+    - component: f7-list
+      config:
+        mediaList: true
+        style:
+          background-color: "=themeOptions.dark === 'dark' ? 'rgb(35, 35, 35)' : 'rgb(247, 247, 247)'"
+      slots:
+        default:
+          - component: oh-repeater
+            config:
+              filter: loop.item2.state == "OFF"
+              for: item2
+              fragment: true
+              groupItem: =props.UnavailableDevicesGroupCountItem
+              sourceType: itemsInGroup
+            slots:
+              default:
+                - component: oh-list-item
+                  config:
+                    icon: '=(loop.item2.state == "OFF") ? "if:heroicons-outline:status-offline" : "if:heroicons-outline:status-online"'
+                    iconColor: '=(loop.item2.state == "OFF") ? "red" : "green"'
+                    mediaList: false
+                    style:
+                      --f7-list-item-after-font-size: 15px
+                      --f7-list-item-after-text-color: "=themeOptions.dark === 'dark' ? 'rgb(180,180,180)' : 'rgb(100,100,100)'"
+                      --f7-list-item-title-font-size: 15px
+                      --f7-list-item-title-line-height: 32px
+                      --f7-list-item-title-text-color: "=themeOptions.dark === 'dark' ? 'rgb(180,180,180)' : 'rgb(100,100,100)'"
+                    title: =loop.item2.label
+                    badgeColor: red
+                    item: =loop.item2
+                    badge: '=@(loop.item2.name)'
