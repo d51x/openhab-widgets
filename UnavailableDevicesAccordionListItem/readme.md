@@ -14,3 +14,5 @@
 
 Далее в эту группу добавляем items, которые отслеживают статус устройств
 
+**PS** Для определения состояния устройств можно воспользоваться следующим rule - [Things Status Detector](https://github.com/d51x/openhab-scripts/tree/master/things_status "Things Status Detector")
+
