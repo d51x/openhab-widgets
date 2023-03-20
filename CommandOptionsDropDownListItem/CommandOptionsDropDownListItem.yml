@@ -1,0 +1,63 @@
+uid: CommandOptionsDropDownListItem
+tags: []
+props:
+  parameters:
+    - description: A Label of List Item
+      label: List Item Label
+      name: prop1
+      required: false
+      type: TEXT
+    - context: item
+      description: An item to control
+      label: Item
+      name: item
+      required: false
+      type: TEXT
+    - description: A width of dropdown list
+      label: Dropdown width
+      name: dropdown
+      required: false
+      type: TEXT
+      advanced: true
+  parameterGroups: []
+timestamp: Mar 20, 2023, 7:36:07 PM
+component: oh-list
+config:
+  title: '=(props.prop1) ? "State of " + props.item : "Set props to test!"'
+  accordionList: true
+  mediaList: true
+  after: =
+slots:
+  default:
+    - component: oh-list-item
+      config:
+        item: =props.item
+        title: =props.prop1?props.prop1:""
+        after: =@(props.item)
+      slots:
+        accordion:
+          - component: oh-repeater
+            config:
+              sourceType: itemStateOptions
+              for: option
+              itemOptions: =props.item
+              fragment: true
+            slots:
+              default:
+                - component: f7-list-item
+                  config:
+                    divider: false
+                    style:
+                      display: grid
+                      justify-content: flex-end
+                  slots:
+                    default:
+                      - component: oh-button
+                        config:
+                          style:
+                            text-align: end
+                            width: =props.dropdown?dropdown:300
+                          action: command
+                          actionCommand: =loop.option.value
+                          actionItem: =props.item
+                          text: =loop.option.label
