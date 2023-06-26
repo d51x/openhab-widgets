@@ -1,0 +1,51 @@
+uid: widget_group_light_list_item_with_off_button
+tags: []
+props:
+  parameters:
+    - description: Item title
+      label: Title
+      name: title
+      required: false
+      type: TEXT
+    - context: item
+      description: An item to control
+      label: Item
+      name: item
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Jun 22, 2023, 11:33:23 PM
+component: oh-list-item
+config:
+  icon: =@@(props.item)=="ON"?"if:mdi:lightbulb-group":"if:mdi:lightbulb-group-off-outline"
+  iconColor: =@@(props.item)=="ON"?"orange":"var(--f7-list-item-after-text-color)"
+  style:
+    --f7-list-item-after-text-color: "=themeOptions.dark === 'dark' ? 'white' : 'grey'"
+  title: '=(props.title) ? props.title : "Set the title"'
+slots:
+  after:
+    - component: f7-block
+      config:
+        style:
+          align-content: center
+          align-items: center
+          display: inline-flex
+          flex-direction: row
+          flex-wrap: nowrap
+          justify-content: flex-end
+          margin: 0
+          padding: 0
+      slots:
+        default:
+          - component: Label
+            config:
+              text: =@(props.item)
+              visible: =@@(props.item)!="ON"
+          - component: oh-button
+            config:
+              action: command
+              actionCommand: OFF
+              actionItem: =props.item
+              outline: true
+              text: =@(props.item)
+              visible: =@@(props.item)=="ON"
