@@ -1,0 +1,206 @@
+uid: widget_universal_binary_sensor_list_item
+tags: []
+props:
+  parameters:
+    - description: Enter device name
+      label: Device Name
+      name: prop1
+      required: true
+      type: TEXT
+    - context: item
+      description: select a group item associated with device which contains other types of device items, For example, it should be an item with name "WindowSensor_Bedroom" or "Bedroom_WindowSensor"
+      label: Item
+      name: item
+      required: true
+      type: TEXT
+    - description: Select a sensor type. The Group Item should contains an Item with value which should contains suffix in item name, i.e. "_Motion", or "_Contact", or "_WaterLeak" or "_Smoke". For example, "WindowSensor_Bedroom_Contact"
+      label: Sensor Type
+      name: sensor
+      required: true
+      type: TEXT
+      limitToOptions: true
+      options:
+        - label: Motion Sensor
+          value: motion
+        - label: Door Sensor
+          value: door
+        - label: Window Sensor
+          value: window
+        - label: Water Leak Sensor
+          value: leak
+        - label: Smoke Sensor
+          value: smoke
+    - description: 'Custom suffix for Item with value (default: like sensor "_type"), leave blank to use default or type with underscore ("_")'
+      label: Sensor Type suffix
+      name: sensorTypeSuffix
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Positive value of item. Default value for motion/leak/smoke is ON, for door/window is CLOSED
+      label: Positive value
+      name: posValue
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Negative value of item. Default value for motion/leak/smoke is OFF, for door/window is OPEN
+      label: Negative value
+      name: negValue
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Icon for positive value
+      label: Positive icon
+      name: posIcon
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Icon for negative value
+      label: Negative icon
+      name: negIcon
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Badge color for positive value of item. Default "green"
+      label: Positive color
+      name: posColor
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Badge color for negative value of item. Default "red"
+      label: Negative color
+      name: negColor
+      required: false
+      type: TEXT
+      advanced: true
+    - default: "false"
+      description: Hide chevron if it necessary
+      label: Hide chevron
+      name: noChevron
+      required: false
+      type: BOOLEAN
+    - description: Battery Level Item should have name with suffix "_BatteryLevel" to original item name, i.e. ItemName_BatteryLevel
+      label: Show Battery
+      name: showBattery
+      required: false
+      type: BOOLEAN
+    - description: 'Battery Level Item suffix (default: _BatteryLevel), leave blank to use default or type with underscore ("_")'
+      label: Battery Level suffix
+      name: batterySuffix
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Shows last changed info under badge in human readable format, i.e. 5 minutes ago. Last Change Item should have name with suffix "_LastChange" to item witch value that changed, not Group Item Name. For example, WindowSensor_Bedroom_Contact_LastChange"
+      label: Show Last Changed
+      name: lastChanged
+      required: false
+      type: BOOLEAN
+    - description: 'Last Changed Item suffix (default: _LastChange), leave blank to use default or type with underscore ("_")'
+      label: Last Change suffix
+      name: lastChangeSuffix
+      required: false
+      type: TEXT
+      advanced: true
+    - description: Shows last updated info under badge in human readable format, i.e. 5 minutes ago. Last Update Item should have name with suffix "_LastUpdate" to item witch value that changed, not Group Item Name. For example, WindowSensor_Bedroom_Contact_LastUpdate"
+      label: Show Last Updated
+      name: lastUpdated
+      required: false
+      type: BOOLEAN
+    - description: 'Last Updated Item suffix (default: _LastUpdated), leave blank to use default or type with underscore ("_")'
+      label: Last Update suffix
+      name: lastUpdateSuffix
+      required: false
+      type: TEXT
+      advanced: true
+    - context: item
+      description: Select an item with last seen to show info in human readable format (i.e. 5 minutes ago) in subtitle, next to battery info
+      label: Last Seen Item
+      name: lastSeen
+      required: false
+      type: TEXT
+  parameterGroups: []
+timestamp: Jun 25, 2023, 1:36:43 PM
+component: oh-list-item
+config:
+  icon: >
+    =@@(props.item + (props.sensorTypeSuffix || ({"door":"_Contact","window":"_Contact","motion":"_Motion","leak":"_WaterLeak","smoke":"_Smoke"})[props.sensor])) == (props.posValue || ({"door":"CLOSED","window":"CLOSED","motion":"OFF","leak":"OFF","smoke":"OFF"})[props.sensor])  ? (props.negIcon || ({"door":"if:mdi:door-closed","window":"if:mdi:window-closed","motion":"if:material-symbols:zone-person-idle","leak":"if:mdi:water-off","smoke":"if:mdi:fire-off"})[props.sensor]) : (props.posIcon || ({"door":"if:mdi:door-open","window":"if:mdi:window-open","motion":"if:material-symbols:zone-person-alert","leak":"if:mdi:water-alert","smoke":"if:mdi:fire"})[props.sensor])
+  no-chevron: =props.noChevron
+  style:
+    padding-bottom: 1px
+  subtitle: ""
+  title: =props.prop1
+slots:
+  after:
+    - component: f7-row
+      config:
+        style:
+          color: var(--f7-text-color)
+          left: 0px
+          position: absolute
+          top: 0px
+          width: 100%
+      slots:
+        default:
+          - component: f7-col
+            slots:
+              default:
+                - component: f7-row
+                  config:
+                    style:
+                      height: 20px
+                - component: f7-row
+                  config:
+                    style:
+                      align-content: center
+                      align-items: center
+                      display: flex
+                      flex-direction: row
+                      flex-wrap: nowrap
+                      justify-content: flex-start
+                    visible: = props.showBattery && props.item?"true":"false"
+                  slots:
+                    default:
+                      - component: f7-icon
+                        config:
+                          f7: battery_25
+                      - component: Label
+                        config:
+                          style:
+                            font-size: 12px
+                            font-weight: 300
+                            padding-left: 4px
+                          text: = @(props.item + (props.batterySuffix?props.batterySuffix:"_BatteryLevel"))
+          - component: f7-col
+            config:
+              style:
+                align-items: flex-end
+                display: flex
+                flex-direction: column
+                flex-wrap: nowrap
+                justify-content: flex-start
+                margin-right: auto
+                place-content: end
+            slots:
+              default:
+                - component: f7-badge
+                  config:
+                    bgColor: '=@@(props.item + (props.sensorTypeSuffix || ({"door":"_Contact","window":"_Contact","motion":"_Motion","leak":"_WaterLeak","smoke":"_Smoke"})[props.sensor])) == (props.posValue || ({"door":"CLOSED","window":"CLOSED","motion":"OFF","leak":"OFF","smoke":"OFF"})[props.sensor])  ? (props.posColor || "green") : (props.negColor || "red")'
+                    style:
+                      height: 20px
+                      margin-top: 0px
+                      padding: 0 12px 0 12px
+                  slots:
+                    default:
+                      - component: Label
+                        config:
+                          style:
+                            margin-left: 4px
+                            margin-right: 4px
+                          text: =@(props.item + (props.sensorTypeSuffix || ({"door":"_Contact","window":"_Contact","motion":"_Motion","leak":"_WaterLeak","smoke":"_Smoke"})[props.sensor]))
+                - component: Label
+                  config:
+                    style:
+                      font-size: 12px
+                      font-weight: 300
+                      padding-left: 4px
+                    text: =dayjs(props.lastChanged?@@(props.item + (props.sensorTypeSuffix || ({"door":"_Contact","window":"_Contact","motion":"_Motion","leak":"_WaterLeak","smoke":"_Smoke"})[props.sensor]) + (props.lastChangeSuffix?props.lastChangeSuffix:"_LastChange")):props.lastUpdated?@@(props.item + (props.sensorTypeSuffix || ({"door":"_Contact","window":"_Contact","motion":"_Motion","leak":"_WaterLeak","smoke":"_Smoke"})[props.sensor]) + (props.lastUpdateSuffix?props.lastUpdateSuffix:"_LastUpdate")):props.lastSeen?@@(props.lastSeen):"-").fromNow()
+                    visible: =props.lastChanged|props.lastUpdated|props.lastSeen?"true":"false"
